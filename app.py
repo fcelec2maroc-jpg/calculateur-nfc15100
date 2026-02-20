@@ -5,13 +5,13 @@ import math
 st.set_page_config(page_title="Calculateur Chute de Tension - FC ELEC", layout="centered")
 
 # --- AFFICHAGE DU LOGO ET TITRE ---
-# Note : Assurez-vous que le fichier 'logo FC ELEC.png' est dans le même dossier
+# Note : Assurez-vous que le fichier 'logoFCELEC.png' est dans le même dossier
 try:
-    st.image("logo FC ELEC.png", width=200)
+    st.image("logoFCELEC.png", width=200)
 except:
-    st.warning("⚠️ Logo 'logo FC ELEC.png' non trouvé. Placez l'image dans le répertoire du script.")
+    st.warning("Bienvue chez FC ELEC")
 
-st.title("⚡ Calcul de Chute de Tension (NF C 15-100)")
+st.title("⚡Calculateur Chute de Tension - FC ELEC (NF C 15-100)")
 st.markdown("---")
 
 # --- ENTRÉES UTILISATEUR (Sidebar) ---
@@ -65,3 +65,18 @@ with st.expander("Voir le détail des paramètres de calcul"):
     st.write(f"**Résistivité (ρ) utilisée :** {rho} $\Omega \cdot mm^2/m$")
     st.write(f"**Réactance (x) :** {x} $\Omega/m$")
     st.write(f"**Coefficient de phase (b) :** {b}")
+
+
+# --- EXPORT PDF ---
+params_pdf = {
+    "Alimentation": phase,
+    "Conducteur": metal,
+    "Section": f"{section} mm²",
+    "Longueur": f"{longueur} m",
+    "Intensité": f"{intensite} A",
+    "Cos Phi": cos_phi
+}
+res_pdf = {"dv": round(du, 2), "dp": round(du_pourcent, 2), "status": status}
+
+pdf_data = create_pdf(params_pdf, res_pdf)
+st.download_button(label="📥 Télécharger le rapport PDF", data=pdf_data, file_name="Rapport_Tension_FCELEC.pdf", mime="application/pdf")
