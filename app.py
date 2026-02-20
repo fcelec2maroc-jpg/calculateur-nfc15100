@@ -67,16 +67,3 @@ with st.expander("Voir le détail des paramètres de calcul"):
     st.write(f"**Coefficient de phase (b) :** {b}")
 
 
-# --- EXPORT PDF ---
-params_pdf = {
-    "Alimentation": phase,
-    "Conducteur": metal,
-    "Section": f"{section} mm²",
-    "Longueur": f"{longueur} m",
-    "Intensité": f"{intensite} A",
-    "Cos Phi": cos_phi
-}
-res_pdf = {"dv": round(du, 2), "dp": round(du_pourcent, 2), "status": status}
-
-pdf_data = create_pdf(params_pdf, res_pdf)
-st.download_button(label="📥 Télécharger le rapport PDF", data=pdf_data, file_name="Rapport_Tension_FCELEC.pdf", mime="application/pdf")
